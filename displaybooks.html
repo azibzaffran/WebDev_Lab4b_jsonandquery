@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JSON and jQuery Data Display</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <h1>Book Collection Details</h1>
+    <p>Check the console (Inspect -> Console) for the required details.</p>
+
+    <script>
+        // Use jQuery's $(document).ready() to ensure the DOM is fully loaded before executing the script
+        $(document).ready(function() {
+            // Use $.getJSON to load the data from the books.json file
+            $.getJSON('books.json', function(data) {
+                console.log("--- Book Collection Data Loaded ---");
+                
+                // (a) The title of the first book (index 0)
+                var firstBookTitle = data[0].title;
+                console.log("(a) Title of the first book: " + firstBookTitle);
+                
+                // (b) The author of the second book (index 1)
+                var secondBookAuthor = data[1].author;
+                console.log("(b) Author of the second book: " + secondBookAuthor);
+                
+                // (c) The genres of all books
+                console.log("(c) Genres of all books:");
+                $.each(data, function(index, book) {
+                    console.log("  Book " + (index + 1) + " genres: " + book.genres.join(', '));
+                });
+                
+            }).fail(function(jqxhr, textStatus, error) {
+                // Error handling in case the JSON file is not found or has a parsing error
+                var err = textStatus + ", " + error;
+                console.error("Request Failed: " + err);
+            });
+        });
+    </script>
+</body>
+</html>
